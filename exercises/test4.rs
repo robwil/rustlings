@@ -7,6 +7,7 @@
 
 macro_rules! my_macro {
     ($val:expr) => {
+        // an alternative way to do this (one-liner) is to use format!("Hello {}", $val)
         {
             let mut str = String::from("Hello ");
             str.push_str($val);
