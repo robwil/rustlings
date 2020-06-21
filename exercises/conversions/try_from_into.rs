@@ -11,7 +11,14 @@ struct Color {
     blue: u8,
 }
 
-// I AM NOT DONE
+mod ColorHelper {
+    pub fn valid_rgb(val: i16) -> bool {
+        if val < 0 || val > 255 {
+            return false;
+        }
+        return true;
+    }
+}
 
 // Your task is to complete this implementation
 // and return an Ok result of inner type Color.
@@ -26,6 +33,11 @@ struct Color {
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = String;
     fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+        if ColorHelper::valid_rgb(tuple.0) && ColorHelper::valid_rgb(tuple.1) && ColorHelper::valid_rgb(tuple.2) {
+            return Ok(Color{red: tuple.0 as u8, green: tuple.1 as u8, blue: tuple.2 as u8});
+        } else {
+            return Err(String::from("invalid values passed"));
+        }
     }
 }
 
@@ -33,6 +45,11 @@ impl TryFrom<(i16, i16, i16)> for Color {
 impl TryFrom<[i16; 3]> for Color {
     type Error = String;
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+        if ColorHelper::valid_rgb(arr[0]) && ColorHelper::valid_rgb(arr[1]) && ColorHelper::valid_rgb(arr[2]) {
+            return Ok(Color{red: arr[0] as u8, green: arr[1] as u8, blue: arr[2] as u8});
+        } else {
+            return Err(String::from("invalid values passed"));
+        }
     }
 }
 
@@ -40,6 +57,14 @@ impl TryFrom<[i16; 3]> for Color {
 impl TryFrom<&[i16]> for Color {
     type Error = String;
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        if slice.len() != 3 {
+            return Err(String::from("must pass 3 values"));
+        }
+        else if ColorHelper::valid_rgb(slice[0]) && ColorHelper::valid_rgb(slice[1]) && ColorHelper::valid_rgb(slice[2]) { 
+            return Ok(Color{red: slice[0] as u8, green: slice[1] as u8, blue: slice[2] as u8});
+        } else {
+            return Err(String::from("invalid values passed"));
+        }
     }
 }
 
